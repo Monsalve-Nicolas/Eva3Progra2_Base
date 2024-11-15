@@ -6,7 +6,8 @@ public class GridEntity_Movible_Player : GridEntity_Movible
 {
     public GridShooter gridShooter;
     public Vector2Int startPos;
-
+    public GameObject linterna;
+    bool isTurnOn = true;
     protected override void Awake2()
     {
 
@@ -27,6 +28,20 @@ public class GridEntity_Movible_Player : GridEntity_Movible
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gridShooter.Shoot(gridPos);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {   
+            if (isTurnOn)
+            {
+                linterna.SetActive(false);
+                isTurnOn = false;
+            }
+            else
+            {
+                isTurnOn = true;
+                linterna.SetActive(true);
+            }
+
         }
     }  
 
