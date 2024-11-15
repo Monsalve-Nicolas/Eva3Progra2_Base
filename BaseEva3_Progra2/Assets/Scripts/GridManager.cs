@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GridManager : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class GridManager : MonoBehaviour
                 newPiece.pos = gridPos;
                 //Guardo la pieza creada en la matriz
                 grid[x,z] = newPiece;
+                
             }
         }
     }
@@ -52,6 +54,7 @@ public class GridManager : MonoBehaviour
         GameObject pref = gridPiecesPrefabs[(int)pieceType];
 
         GameObject pieceObj = Instantiate(pref, position, Quaternion.identity,parent);
+      
         
         switch (pieceType)
         {
@@ -60,6 +63,11 @@ public class GridManager : MonoBehaviour
                 gridPiece_Empty.isEmpty = true;
                 gridPiece_Empty.isWalkable = true;
                 piece = gridPiece_Empty;
+                TextMeshProUGUI newTextMeshPro = gridPiece_Empty.texto;
+                if (newTextMeshPro != null)
+                {
+                    newTextMeshPro.text = (gridPos.x + "," + gridPos.y);
+                }
                 break;
             case GridPieceType.Wall:
                 GridPiece_Wall gridPiece_Wall = pieceObj.GetComponent<GridPiece_Wall>();
@@ -94,6 +102,10 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.DestructibleWall;
         }
+        if(pos.x == 1 && pos.y == 1)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
         return gridPieceType;
     }
 
@@ -111,4 +123,5 @@ public class GridManager : MonoBehaviour
     {
         return pos.x >= 0 && pos.x < gridSize.x && pos.y >= 0 && pos.y < gridSize.y;
     }
+   
 }

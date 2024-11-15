@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public abstract class GridPiece : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public abstract class GridPiece : MonoBehaviour
     public GridPieceType pieceType;
     protected Color defaultColor;
     protected GridEntity currentGridEntity;
-
+    public TextMeshProUGUI texto;
     //Se encarga de cambiar el color de la pieza
     public void ChangeColor(Color color, bool isDefaultColor)
     {

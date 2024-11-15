@@ -102,4 +102,5 @@ MonoBehaviour:
   isEmpty: 0
   pieceType: 1
   isDestructible: 1
+  isDestroyed: 0
   yOffSet: 1
