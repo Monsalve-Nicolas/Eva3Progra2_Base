@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor.EventSystems;
+using Unity.VisualScripting;
 
 public class GridManager : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class GridManager : MonoBehaviour
     public GameObject[] gridPiecesPrefabs;
     public Vector2Int gridSize;
     public Transform parent;
-
+ 
     public GameObject wallPref;
     public GameObject wallDestructiblePref;
 
@@ -102,9 +104,114 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.DestructibleWall;
         }
-        if(pos.x == 1 && pos.y == 1)
+        if(pos.x == 4 && pos.y == 2 || pos.x == 4 && pos.y == 3 || pos.x == 4 && pos.y == 4 || pos.x == 3 && pos.y == 4)
         {
             gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 4 && pos.y == 7 || pos.x == 3 && pos.y == 7 || pos.x == 3 && pos.y == 8 || pos.x == 3 && pos.y == 9)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 3 && pos.y == 12 || pos.x == 3 && pos.y == 13 || pos.x == 3 && pos.y == 14 || pos.x == 3 && pos.y == 15 || pos.x == 4 && pos.y == 13)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 4 && pos.y == 14 || pos.x == 2 && pos.y == 18 || pos.x == 3 && pos.y == 18 || pos.x == 4 && pos.y == 18 || pos.x == 5 && pos.y == 18)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 5 && pos.y == 19 || pos.x == 5 && pos.y == 20 || pos.x == 4 && pos.y == 20 || pos.x == 3 && pos.y == 22 || pos.x == 4 && pos.y == 22)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 2 && pos.y == 24 || pos.x == 2 && pos.y == 25 || pos.x == 2 && pos.y == 26 || pos.x == 2 && pos.y == 27)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 3 && pos.y == 24)//cuadrado que quiero hacer trigger
+        {
+            gridPieceType = GridPieceType.DestructibleWall;
+        }
+        if (pos.x == 4 && pos.y == 24 || pos.x == 4 && pos.y == 25 || pos.x == 4 && pos.y == 26 || pos.x == 4 && pos.y == 27)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 6 && pos.y == 2 || pos.x == 6 && pos.y == 3 || pos.x == 6 && pos.y == 4 || pos.x == 6 && pos.y == 5)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 7 && pos.y == 5 || pos.x == 8 && pos.y == 5 || pos.x == 9 && pos.y == 5 || pos.x == 9 && pos.y == 4 || pos.x == 9 && pos.y == 3 || pos.x == 8 && pos.y == 3)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if(pos.x == 6 && pos.y == 8 || pos.x == 7 && pos.y == 8 || pos.x == 8 && pos.y == 8 || pos.x == 9 && pos.y == 8 || pos.x == 10 && pos.y == 8 || pos.x == 7 && pos.y == 9 || pos.x == 8 && pos.y == 9 || pos.x == 9 && pos.y == 9)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 8 && pos.y == 11 || pos.x == 11 && pos.y == 10 || pos.x == 11 && pos.y == 18 || pos.x == 19 && pos.y == 9 || pos.x == 19 && pos.y == 19)//cuadros solitarios
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if(pos.x == 7 && pos.y == 13 || pos.x == 8 && pos.y == 13 || pos.x == 9 && pos.y == 13 || pos.x == 7 && pos.y == 14 || pos.x == 7 && pos.y == 15 || pos.x == 8 && pos.y == 15 || pos.x == 9 && pos.y == 15)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if(pos.x == 9 && pos.y == 14)//cuadrado que quiero trigger
+        {
+            gridPieceType = GridPieceType.DestructibleWall;
+        }
+        if(pos.x == 23 && pos.y == 25)//cuadrado que quiero trigger
+        {
+            gridPieceType = GridPieceType.DestructibleWall;
+        }
+        if (pos.x == 7 && pos.y == 18 || pos.x == 7 && pos.y == 19 || pos.x == 7 && pos.y == 20 || pos.x == 8 && pos.y == 20 || pos.x == 9 && pos.y == 18 || pos.x == 9 && pos.y == 19 || pos.x == 9 && pos.y == 20 
+         || pos.x == 6 && pos.y == 23 || pos.x == 6 && pos.y == 24 || pos.x == 6 && pos.y == 25 || pos.x == 7 && pos.y == 23 || pos.x == 7 && pos.y == 24 || pos.x == 7 && pos.y == 25 || pos.x == 8 && pos.y == 23
+         || pos.x == 8 && pos.y == 24 || pos.x == 8 && pos.y == 25)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 12 && pos.y == 4 || pos.x == 12 && pos.y == 5 || pos.x == 13 && pos.y == 3 || pos.x == 13 && pos.y == 4 || pos.x == 13 && pos.y == 5 || pos.x == 13 && pos.y == 6 || pos.x == 13 && pos.y == 7 ||
+            pos.x == 14 && pos.y == 4 || pos.x == 14 && pos.y == 7 || pos.x == 12 && pos.y == 12 || pos.x == 12 && pos.y == 13 || pos.x == 12 && pos.y == 14 || pos.x == 12 && pos.y == 15 || pos.x == 12 && pos.y == 16 ||
+            pos.x == 11 && pos.y == 20 || pos.x == 11 && pos.y == 21 || pos.x == 12 && pos.y == 20 || pos.x == 13 && pos.y == 20 || pos.x == 14 && pos.y == 20 || pos.x == 10 && pos.y == 23 || pos.x == 11 && pos.y == 23
+            || pos.x == 12 && pos.y == 23 || pos.x == 13 && pos.y == 23 || pos.x == 13 && pos.y == 22 || pos.x == 10 && pos.y == 26 || pos.x == 10 && pos.y == 27 || pos.x == 11 && pos.y == 26 || pos.x == 11 && pos.y == 27
+            || pos.x == 12 && pos.y == 26 || pos.x == 12 && pos.y == 27 || pos.x == 13 && pos.y == 26 || pos.x == 13 && pos.y == 27)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 13 && pos.y == 9 || pos.x == 14 && pos.y == 9 || pos.x == 15 && pos.y == 9 || pos.x == 16 && pos.y == 9 || pos.x == 17 && pos.y == 9 || pos.x == 14 && pos.y == 13 || pos.x == 14 && pos.y == 14 ||
+            pos.x == 15 && pos.y == 11 || pos.x == 15 && pos.y == 12 || pos.x == 15 && pos.y == 13 || pos.x == 15 && pos.y == 14 || pos.x == 15 && pos.y == 15 || pos.x == 15 && pos.y == 16 || pos.x == 16 && pos.y == 13
+            || pos.x == 16 && pos.y == 14 || pos.x == 13 && pos.y == 18 || pos.x == 14 && pos.y == 18 || pos.x == 15 && pos.y == 18 || pos.x == 16 && pos.y == 18 || pos.x == 17 && pos.y == 18 || pos.x == 16 && pos.y == 20
+            || pos.x == 16 && pos.y == 21 || pos.x == 17 && pos.y == 20 || pos.x == 17 && pos.y == 21 || pos.x == 15 && pos.y == 24 || pos.x == 15 && pos.y == 25 || pos.x == 16 && pos.y == 23 || pos.x == 16 && pos.y == 24
+            || pos.x == 16 && pos.y == 25 || pos.x == 17 && pos.y == 24 || pos.x == 17 && pos.y == 25 || pos.x == 18 && pos.y == 11 || pos.x == 18 && pos.y == 12 || pos.x == 18 && pos.y == 13 || pos.x == 18 && pos.y == 14
+            || pos.x == 18 && pos.y == 15 || pos.x == 18 && pos.y == 16)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 16 && pos.y == 3 || pos.x == 16 && pos.y == 5 || pos.x == 16 && pos.y == 6 || pos.x == 17 && pos.y == 3 || pos.x == 17 && pos.y == 4 || pos.x == 17 && pos.y == 5 || pos.x == 17 && pos.y == 6 ||
+            pos.x == 17 && pos.y == 7 || pos.x == 18 && pos.y == 4 || pos.x == 18 && pos.y == 5 || pos.x == 18 && pos.y == 6 || pos.x == 18 && pos.y == 7 || pos.x == 19 && pos.y == 6 || pos.x == 20 && pos.y == 2 ||
+            pos.x == 20 && pos.y == 3 || pos.x == 21 && pos.y == 2 || pos.x == 22 && pos.y == 2 || pos.x == 21 && pos.y == 3 || pos.x == 21 && pos.y == 4 || pos.x == 22 && pos.y == 2 || pos.x == 22 && pos.y == 3 ||
+            pos.x == 21 && pos.y == 8 || pos.x == 21 && pos.y == 9 || pos.x == 22 && pos.y == 8 || pos.x == 22 && pos.y == 9 || pos.x == 20 && pos.y == 16 || pos.x == 21 && pos.y == 15 || pos.x == 21 && pos.y == 16 
+            || pos.x == 21 && pos.y == 17 || pos.x == 22 && pos.y == 16 || pos.x == 20 && pos.y == 22 || pos.x == 21 && pos.y == 21 || pos.x == 21 && pos.y == 22 || pos.x == 21 && pos.y == 23 || pos.x == 19 && pos.y == 26
+            || pos.x == 19 && pos.y == 27 || pos.x == 20 && pos.y == 26 || pos.x == 20 && pos.y == 27)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if (pos.x == 23 && pos.y == 5 || pos.x == 24 && pos.y == 4 || pos.x == 24 && pos.y == 5 || pos.x == 24 && pos.y == 6 || pos.x == 23 && pos.y == 12 || pos.x == 24 && pos.y == 11 || pos.x == 24 && pos.y == 12 ||
+           pos.x == 24 && pos.y == 13 || pos.x == 25 && pos.y == 12 || pos.x == 24 && pos.y == 22 || pos.x == 25 && pos.y == 21 || pos.x == 25 && pos.y == 22 || pos.x == 25 && pos.y == 23 || pos.x == 26 && pos.y == 22 
+           || pos.x == 22 && pos.y == 26 || pos.x == 22 && pos.y == 27 || pos.x == 23 && pos.y == 26 || pos.x == 23 && pos.y == 27 || pos.x == 24 && pos.y == 26 || pos.x == 24 && pos.y == 27
+           || pos.x == 26 && pos.y == 2 || pos.x == 26 && pos.y == 3 || pos.x == 26 && pos.y == 4 || pos.x == 27 && pos.y == 2 || pos.x == 27 && pos.y == 3 || pos.x == 27 && pos.y == 4 || pos.x == 25 && pos.y == 8 ||
+           pos.x == 26 && pos.y == 7 || pos.x == 26 && pos.y == 8 || pos.x == 26 && pos.y == 9 || pos.x == 27 && pos.y == 8 || pos.x == 26 && pos.y == 14 || pos.x == 26 && pos.y == 15 || pos.x == 27 && pos.y == 14 ||
+           pos.x == 27 && pos.y == 15 || pos.x == 26 && pos.y == 18 || pos.x == 26 && pos.y == 19 || pos.x == 27 && pos.y == 17 || pos.x == 27 && pos.y == 18 || pos.x == 27 && pos.y == 19 || pos.x == 27 && pos.y == 20
+           || pos.x == 26 && pos.y == 25 || pos.x == 26 && pos.y == 26 || pos.x == 26 && pos.y == 27 || pos.x == 27 && pos.y == 25 || pos.x == 27 && pos.y == 26 || pos.x == 27 && pos.y == 27) 
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        //cubos que seran obstaculos o algo en el piso
+        if (pos.x == 5 && pos.y == 10 || pos.x == 5 && pos.y == 11 || pos.x == 11 && pos.y == 7 || pos.x == 19 && pos.y == 24
+            || pos.x == 21 && pos.y == 6 || pos.x == 20 && pos.y == 12 || pos.x == 20 && pos.y == 19 || pos.x == 20 && pos.y == 20 || pos.x == 21 && pos.y == 12 || pos.x == 23 && pos.y == 18 || pos.x == 23 && pos.y == 19
+            || pos.x == 24 && pos.y == 15 || pos.x == 24 && pos.y == 16)
+        {
+            gridPieceType = GridPieceType.DestructibleWall;
         }
         return gridPieceType;
     }
