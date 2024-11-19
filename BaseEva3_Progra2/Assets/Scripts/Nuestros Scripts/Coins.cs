@@ -2,16 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coins : MonoBehaviour
+public class Coins : GridEntity
 {
     public GameManager gm;
-    private void OnTriggerEnter(Collider other)
+
+    public override void InteractWhitOtherEntity(GridEntity other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if(other.CompareTag("Player"))
         {
             gm.AddPoints();
-            Destroy(other.gameObject);
-
+            Destroy(gameObject);
         }
     }
+
+    protected override void Awake2()
+    {
+
+    }
+
+    protected override void Die()
+    {
+
+    }
+
 }

@@ -43,6 +43,7 @@ public class GridEntity_Movible_Player : GridEntity_Movible
             }
 
         }
+        
     }  
 
     public void SetPlayerPos(Vector2Int pos)

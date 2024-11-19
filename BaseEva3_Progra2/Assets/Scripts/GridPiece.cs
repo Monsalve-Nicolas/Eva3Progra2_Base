@@ -11,7 +11,7 @@ public abstract class GridPiece : MonoBehaviour
     public bool isEmpty;
     public GridPieceType pieceType;
     protected Color defaultColor;
-    protected GridEntity currentGridEntity;
+    public GridEntity currentGridEntity;
     public TextMeshProUGUI texto;
     //Se encarga de cambiar el color de la pieza
     public void ChangeColor(Color color, bool isDefaultColor)

@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.EventSystems;
-using Unity.VisualScripting;
 
 public class GridManager : MonoBehaviour
 {
+    public GameManager gm;
     //El arreglo requiere el mismo orden que el enum
     public GameObject[] gridPiecesPrefabs;
     public Vector2Int gridSize;
@@ -14,6 +13,7 @@ public class GridManager : MonoBehaviour
  
     public GameObject wallPref;
     public GameObject wallDestructiblePref;
+    public GameObject coinPref;
 
     public GridPiece[,] grid;
 
@@ -87,6 +87,37 @@ public class GridManager : MonoBehaviour
                 gridPiece_WallDestructible.CreateWall(wallDestructiblePref);
                 piece = gridPiece_WallDestructible;
                 break;
+            case GridPieceType.Lava:
+                GridPiece_Lava gridPiece_Lava = pieceObj.GetComponent<GridPiece_Lava>();
+                gridPiece_Lava.isWalkable = true;
+                gridPiece_Lava.isEmpty = true;
+                piece = gridPiece_Lava;
+                break;
+            case GridPieceType.WallTransitable:
+                GridPiece_WallTransitable gridPiece_WallTransitable = pieceObj.GetComponent<GridPiece_WallTransitable>();
+                gridPiece_WallTransitable.isWalkable = true;
+                gridPiece_WallTransitable.isEmpty = true;
+                gridPiece_WallTransitable.CreateWall(wallPref);
+                piece = gridPiece_WallTransitable;
+                break;
+            //case GridPieceType.Collectable:
+            //    GridPiece_Empty gridPieceEmpty = pieceObj.GetComponent<GridPiece_Empty>();
+            //    GameObject coinOBJ = Instantiate(coinPref, position + Vector3.up, Quaternion.identity);
+            //    Coins coin = coinOBJ.GetComponent<Coins>();
+            //    gridPieceEmpty.isWalkable = true;
+            //    gridPieceEmpty.isEmpty = false;
+            //    gridPieceEmpty.currentGridEntity = coin;
+            //    piece = gridPieceEmpty;
+            //    break;
+            case GridPieceType.Collectable:
+                GridPiece_Collectable gridPiece_Collectable = pieceObj.GetComponent<GridPiece_Collectable>();
+                gridPiece_Collectable.isWalkable = true;
+                gridPiece_Collectable.isEmpty = false;
+                Coins coin = (Coins)gridPiece_Collectable.CreateWall(coinPref);
+                coin.gm = gm;
+                gridPiece_Collectable.currentGridEntity = coin;
+                piece = gridPiece_Collectable;
+                break;
         }
 
         return piece;   
@@ -100,7 +131,7 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.Wall;
         }
-        else if (pos.x == 1 || pos.x == gridSize.x - 2 || pos.y == 1 || pos.y == gridSize.y - 2)
+        else if(pos.x == 1 || pos.x == gridSize.x - 2 || pos.y == 1 || pos.y == gridSize.y - 2)
         {
             gridPieceType = GridPieceType.DestructibleWall;
         }
@@ -108,39 +139,39 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 4 && pos.y == 7 || pos.x == 3 && pos.y == 7 || pos.x == 3 && pos.y == 8 || pos.x == 3 && pos.y == 9)
+        if(pos.x == 4 && pos.y == 7 || pos.x == 3 && pos.y == 7 || pos.x == 3 && pos.y == 8 || pos.x == 3 && pos.y == 9)
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 3 && pos.y == 12 || pos.x == 3 && pos.y == 13 || pos.x == 3 && pos.y == 14 || pos.x == 3 && pos.y == 15 || pos.x == 4 && pos.y == 13)
+        if(pos.x == 3 && pos.y == 12 || pos.x == 3 && pos.y == 13 || pos.x == 3 && pos.y == 14 || pos.x == 3 && pos.y == 15 || pos.x == 4 && pos.y == 13)
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 4 && pos.y == 14 || pos.x == 2 && pos.y == 18 || pos.x == 3 && pos.y == 18 || pos.x == 4 && pos.y == 18 || pos.x == 5 && pos.y == 18)
+        if(pos.x == 4 && pos.y == 14 || pos.x == 2 && pos.y == 18 || pos.x == 3 && pos.y == 18 || pos.x == 4 && pos.y == 18 || pos.x == 5 && pos.y == 18)
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 5 && pos.y == 19 || pos.x == 5 && pos.y == 20 || pos.x == 4 && pos.y == 20 || pos.x == 3 && pos.y == 22 || pos.x == 4 && pos.y == 22)
+        if(pos.x == 5 && pos.y == 19 || pos.x == 5 && pos.y == 20 || pos.x == 4 && pos.y == 20 || pos.x == 3 && pos.y == 22 || pos.x == 4 && pos.y == 22)
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 2 && pos.y == 24 || pos.x == 2 && pos.y == 25 || pos.x == 2 && pos.y == 26 || pos.x == 2 && pos.y == 27)
+        if(pos.x == 2 && pos.y == 24 || pos.x == 2 && pos.y == 25 || pos.x == 2 && pos.y == 26 || pos.x == 2 && pos.y == 27)
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 3 && pos.y == 24)//cuadrado que quiero hacer trigger
+        if(pos.x == 3 && pos.y == 24)//cuadrado que quiero hacer trigger
         {
-            gridPieceType = GridPieceType.DestructibleWall;
+            gridPieceType = GridPieceType.WallTransitable;
         }
-        if (pos.x == 4 && pos.y == 24 || pos.x == 4 && pos.y == 25 || pos.x == 4 && pos.y == 26 || pos.x == 4 && pos.y == 27)
-        {
-            gridPieceType = GridPieceType.Wall;
-        }
-        if (pos.x == 6 && pos.y == 2 || pos.x == 6 && pos.y == 3 || pos.x == 6 && pos.y == 4 || pos.x == 6 && pos.y == 5)
+        if(pos.x == 4 && pos.y == 24 || pos.x == 4 && pos.y == 25 || pos.x == 4 && pos.y == 26 || pos.x == 4 && pos.y == 27)
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 7 && pos.y == 5 || pos.x == 8 && pos.y == 5 || pos.x == 9 && pos.y == 5 || pos.x == 9 && pos.y == 4 || pos.x == 9 && pos.y == 3 || pos.x == 8 && pos.y == 3)
+        if(pos.x == 6 && pos.y == 2 || pos.x == 6 && pos.y == 3 || pos.x == 6 && pos.y == 4 || pos.x == 6 && pos.y == 5)
+        {
+            gridPieceType = GridPieceType.Wall;
+        }
+        if(pos.x == 7 && pos.y == 5 || pos.x == 8 && pos.y == 5 || pos.x == 9 && pos.y == 5 || pos.x == 9 && pos.y == 4 || pos.x == 9 && pos.y == 3 || pos.x == 8 && pos.y == 3)
         {
             gridPieceType = GridPieceType.Wall;
         }
@@ -148,7 +179,7 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 8 && pos.y == 11 || pos.x == 11 && pos.y == 10 || pos.x == 11 && pos.y == 18 || pos.x == 19 && pos.y == 9 || pos.x == 19 && pos.y == 19)//cuadros solitarios
+        if(pos.x == 8 && pos.y == 11 || pos.x == 11 && pos.y == 10 || pos.x == 11 && pos.y == 18 || pos.x == 19 && pos.y == 9 || pos.x == 19 && pos.y == 19)//cuadros solitarios
         {
             gridPieceType = GridPieceType.Wall;
         }
@@ -158,19 +189,19 @@ public class GridManager : MonoBehaviour
         }
         if(pos.x == 9 && pos.y == 14)//cuadrado que quiero trigger
         {
-            gridPieceType = GridPieceType.DestructibleWall;
+            gridPieceType = GridPieceType.WallTransitable;
         }
         if(pos.x == 23 && pos.y == 25)//cuadrado que quiero trigger
         {
-            gridPieceType = GridPieceType.DestructibleWall;
+            gridPieceType = GridPieceType.WallTransitable;
         }
-        if (pos.x == 7 && pos.y == 18 || pos.x == 7 && pos.y == 19 || pos.x == 7 && pos.y == 20 || pos.x == 8 && pos.y == 20 || pos.x == 9 && pos.y == 18 || pos.x == 9 && pos.y == 19 || pos.x == 9 && pos.y == 20 
+        if(pos.x == 7 && pos.y == 18 || pos.x == 7 && pos.y == 19 || pos.x == 7 && pos.y == 20 || pos.x == 8 && pos.y == 20 || pos.x == 9 && pos.y == 18 || pos.x == 9 && pos.y == 19 || pos.x == 9 && pos.y == 20 
          || pos.x == 6 && pos.y == 23 || pos.x == 6 && pos.y == 24 || pos.x == 6 && pos.y == 25 || pos.x == 7 && pos.y == 23 || pos.x == 7 && pos.y == 24 || pos.x == 7 && pos.y == 25 || pos.x == 8 && pos.y == 23
          || pos.x == 8 && pos.y == 24 || pos.x == 8 && pos.y == 25)
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 12 && pos.y == 4 || pos.x == 12 && pos.y == 5 || pos.x == 13 && pos.y == 3 || pos.x == 13 && pos.y == 4 || pos.x == 13 && pos.y == 5 || pos.x == 13 && pos.y == 6 || pos.x == 13 && pos.y == 7 ||
+        if(pos.x == 12 && pos.y == 4 || pos.x == 12 && pos.y == 5 || pos.x == 13 && pos.y == 3 || pos.x == 13 && pos.y == 4 || pos.x == 13 && pos.y == 5 || pos.x == 13 && pos.y == 6 || pos.x == 13 && pos.y == 7 ||
             pos.x == 14 && pos.y == 4 || pos.x == 14 && pos.y == 7 || pos.x == 12 && pos.y == 12 || pos.x == 12 && pos.y == 13 || pos.x == 12 && pos.y == 14 || pos.x == 12 && pos.y == 15 || pos.x == 12 && pos.y == 16 ||
             pos.x == 11 && pos.y == 20 || pos.x == 11 && pos.y == 21 || pos.x == 12 && pos.y == 20 || pos.x == 13 && pos.y == 20 || pos.x == 14 && pos.y == 20 || pos.x == 10 && pos.y == 23 || pos.x == 11 && pos.y == 23
             || pos.x == 12 && pos.y == 23 || pos.x == 13 && pos.y == 23 || pos.x == 13 && pos.y == 22 || pos.x == 10 && pos.y == 26 || pos.x == 10 && pos.y == 27 || pos.x == 11 && pos.y == 26 || pos.x == 11 && pos.y == 27
@@ -178,7 +209,7 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 13 && pos.y == 9 || pos.x == 14 && pos.y == 9 || pos.x == 15 && pos.y == 9 || pos.x == 16 && pos.y == 9 || pos.x == 17 && pos.y == 9 || pos.x == 14 && pos.y == 13 || pos.x == 14 && pos.y == 14 ||
+        if(pos.x == 13 && pos.y == 9 || pos.x == 14 && pos.y == 9 || pos.x == 15 && pos.y == 9 || pos.x == 16 && pos.y == 9 || pos.x == 17 && pos.y == 9 || pos.x == 14 && pos.y == 13 || pos.x == 14 && pos.y == 14 ||
             pos.x == 15 && pos.y == 11 || pos.x == 15 && pos.y == 12 || pos.x == 15 && pos.y == 13 || pos.x == 15 && pos.y == 14 || pos.x == 15 && pos.y == 15 || pos.x == 15 && pos.y == 16 || pos.x == 16 && pos.y == 13
             || pos.x == 16 && pos.y == 14 || pos.x == 13 && pos.y == 18 || pos.x == 14 && pos.y == 18 || pos.x == 15 && pos.y == 18 || pos.x == 16 && pos.y == 18 || pos.x == 17 && pos.y == 18 || pos.x == 16 && pos.y == 20
             || pos.x == 16 && pos.y == 21 || pos.x == 17 && pos.y == 20 || pos.x == 17 && pos.y == 21 || pos.x == 15 && pos.y == 24 || pos.x == 15 && pos.y == 25 || pos.x == 16 && pos.y == 23 || pos.x == 16 && pos.y == 24
@@ -187,7 +218,7 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 16 && pos.y == 3 || pos.x == 16 && pos.y == 5 || pos.x == 16 && pos.y == 6 || pos.x == 17 && pos.y == 3 || pos.x == 17 && pos.y == 4 || pos.x == 17 && pos.y == 5 || pos.x == 17 && pos.y == 6 ||
+        if(pos.x == 16 && pos.y == 3 || pos.x == 16 && pos.y == 5 || pos.x == 16 && pos.y == 6 || pos.x == 17 && pos.y == 3 || pos.x == 17 && pos.y == 4 || pos.x == 17 && pos.y == 5 || pos.x == 17 && pos.y == 6 ||
             pos.x == 17 && pos.y == 7 || pos.x == 18 && pos.y == 4 || pos.x == 18 && pos.y == 5 || pos.x == 18 && pos.y == 6 || pos.x == 18 && pos.y == 7 || pos.x == 19 && pos.y == 6 || pos.x == 20 && pos.y == 2 ||
             pos.x == 20 && pos.y == 3 || pos.x == 21 && pos.y == 2 || pos.x == 22 && pos.y == 2 || pos.x == 21 && pos.y == 3 || pos.x == 21 && pos.y == 4 || pos.x == 22 && pos.y == 2 || pos.x == 22 && pos.y == 3 ||
             pos.x == 21 && pos.y == 8 || pos.x == 21 && pos.y == 9 || pos.x == 22 && pos.y == 8 || pos.x == 22 && pos.y == 9 || pos.x == 20 && pos.y == 16 || pos.x == 21 && pos.y == 15 || pos.x == 21 && pos.y == 16 
@@ -196,10 +227,9 @@ public class GridManager : MonoBehaviour
         {
             gridPieceType = GridPieceType.Wall;
         }
-        if (pos.x == 23 && pos.y == 5 || pos.x == 24 && pos.y == 4 || pos.x == 24 && pos.y == 5 || pos.x == 24 && pos.y == 6 || pos.x == 23 && pos.y == 12 || pos.x == 24 && pos.y == 11 || pos.x == 24 && pos.y == 12 ||
+        if(pos.x == 23 && pos.y == 5 || pos.x == 24 && pos.y == 4 || pos.x == 24 && pos.y == 5 || pos.x == 24 && pos.y == 6 || pos.x == 23 && pos.y == 12 || pos.x == 24 && pos.y == 11 || pos.x == 24 && pos.y == 12 ||
            pos.x == 24 && pos.y == 13 || pos.x == 25 && pos.y == 12 || pos.x == 24 && pos.y == 22 || pos.x == 25 && pos.y == 21 || pos.x == 25 && pos.y == 22 || pos.x == 25 && pos.y == 23 || pos.x == 26 && pos.y == 22 
-           || pos.x == 22 && pos.y == 26 || pos.x == 22 && pos.y == 27 || pos.x == 23 && pos.y == 26 || pos.x == 23 && pos.y == 27 || pos.x == 24 && pos.y == 26 || pos.x == 24 && pos.y == 27
-           || pos.x == 26 && pos.y == 2 || pos.x == 26 && pos.y == 3 || pos.x == 26 && pos.y == 4 || pos.x == 27 && pos.y == 2 || pos.x == 27 && pos.y == 3 || pos.x == 27 && pos.y == 4 || pos.x == 25 && pos.y == 8 ||
+           || pos.x == 22 && pos.y == 26 || pos.x == 22 && pos.y == 27 || pos.x == 24 && pos.y == 26 || pos.x == 24 && pos.y == 27 || pos.x == 26 && pos.y == 2 || pos.x == 26 && pos.y == 3 || pos.x == 26 && pos.y == 4 || pos.x == 27 && pos.y == 2 || pos.x == 27 && pos.y == 3 || pos.x == 27 && pos.y == 4 || pos.x == 25 && pos.y == 8 ||
            pos.x == 26 && pos.y == 7 || pos.x == 26 && pos.y == 8 || pos.x == 26 && pos.y == 9 || pos.x == 27 && pos.y == 8 || pos.x == 26 && pos.y == 14 || pos.x == 26 && pos.y == 15 || pos.x == 27 && pos.y == 14 ||
            pos.x == 27 && pos.y == 15 || pos.x == 26 && pos.y == 18 || pos.x == 26 && pos.y == 19 || pos.x == 27 && pos.y == 17 || pos.x == 27 && pos.y == 18 || pos.x == 27 && pos.y == 19 || pos.x == 27 && pos.y == 20
            || pos.x == 26 && pos.y == 25 || pos.x == 26 && pos.y == 26 || pos.x == 26 && pos.y == 27 || pos.x == 27 && pos.y == 25 || pos.x == 27 && pos.y == 26 || pos.x == 27 && pos.y == 27) 
@@ -207,13 +237,19 @@ public class GridManager : MonoBehaviour
             gridPieceType = GridPieceType.Wall;
         }
         //cubos que seran obstaculos o algo en el piso
-        if (pos.x == 5 && pos.y == 10 || pos.x == 5 && pos.y == 11 || pos.x == 11 && pos.y == 7 || pos.x == 19 && pos.y == 24
+        if(pos.x == 5 && pos.y == 10 || pos.x == 5 && pos.y == 11 || pos.x == 11 && pos.y == 7 || pos.x == 19 && pos.y == 24
             || pos.x == 21 && pos.y == 6 || pos.x == 20 && pos.y == 12 || pos.x == 20 && pos.y == 19 || pos.x == 20 && pos.y == 20 || pos.x == 21 && pos.y == 12 || pos.x == 23 && pos.y == 18 || pos.x == 23 && pos.y == 19
             || pos.x == 24 && pos.y == 15 || pos.x == 24 && pos.y == 16)
         {
-            gridPieceType = GridPieceType.DestructibleWall;
+            gridPieceType = GridPieceType.Lava;
+
         }
-        return gridPieceType;
+        if(pos.x == 3 && pos.y == 27 || pos.x == 8 && pos.y == 14 || pos.x == 8 && pos.y == 19 || pos.x == 8 && pos.y == 4 || pos.x == 23 && pos.y == 27)
+        {
+            gridPieceType = GridPieceType.Collectable;
+        }
+
+            return gridPieceType;
     }
 
     public bool IsPieceWalkable(Vector2Int piecePos)

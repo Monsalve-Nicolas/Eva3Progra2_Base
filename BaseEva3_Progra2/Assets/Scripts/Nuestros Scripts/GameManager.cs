@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
 
+        SceneManager.LoadScene(0);
     }
     public void Timer()
     {
@@ -43,14 +44,16 @@ public class GameManager : MonoBehaviour
         min = (int)(timer / 60f);
         seg = (int)(timer - min * 60f);
         textTimer.text = string.Format("{0:00}:{1:00}", min, seg);
-        if(timer <= 60)
+
+        if(timer <= 0)
+        {
+            EndGame();
+            isTimerOn = false;
+        }
+        else if (timer <= 60)
         {
             textTimer.color = Color.red;
 
-        }
-        else if(timer == 0)
-        {
-            EndGame();
         }
     }
     public void SpawnerColeccionables()
