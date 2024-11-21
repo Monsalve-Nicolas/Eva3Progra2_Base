@@ -24,6 +24,10 @@ public class SoundBand : MonoBehaviour
         {
             source.Pause();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            source.PlayOneShot(clipMusic, 5f);
+        }
     }
     
 
