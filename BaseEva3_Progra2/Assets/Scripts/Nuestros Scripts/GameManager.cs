@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     {
 
     }
+    public void WinGame()
+    {
+        SceneManager.LoadScene(2);
+    }
     public void EndGame()
     {
 
@@ -65,6 +69,10 @@ public class GameManager : MonoBehaviour
         count++;
         textAddPoints.text = count.ToString();
         Debug.Log("Lalala");
+        if (count == 5)
+        {
+            WinGame();
+        }
     }
     public bool Caminable()
     {

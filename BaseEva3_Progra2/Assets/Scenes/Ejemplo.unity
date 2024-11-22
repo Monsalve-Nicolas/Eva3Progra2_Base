@@ -20377,7 +20377,7 @@ MonoBehaviour:
   textAddPoints: {fileID: 958842925}
   isTimerOn: 0
   count: 0
-  timer: 180
+  timer: 70
 --- !u!4 &1072494702
 Transform:
   m_ObjectHideFlags: 0
