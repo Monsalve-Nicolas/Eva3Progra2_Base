@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     {
         count++;
         textAddPoints.text = count.ToString();
+        Debug.Log("Lalala");
     }
     public bool Caminable()
     {

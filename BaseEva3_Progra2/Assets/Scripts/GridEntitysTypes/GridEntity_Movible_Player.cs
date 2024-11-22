@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GridEntity_Movible_Player : GridEntity_Movible
 {
@@ -91,5 +92,7 @@ public class GridEntity_Movible_Player : GridEntity_Movible
     protected override void Die()
     {
         print("PlayerDead");
+        SceneManager.LoadScene(0);
+
     }
 }
