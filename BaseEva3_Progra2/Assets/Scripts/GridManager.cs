@@ -93,7 +93,7 @@ public class GridManager : MonoBehaviour
                 gridPiece_Lava.isEmpty = true;
                 piece = gridPiece_Lava;
                 break;
-            case GridPieceType.WallTransitable:
+            case GridPieceType.WallTransitable :
                 GridPiece_WallTransitable gridPiece_WallTransitable = pieceObj.GetComponent<GridPiece_WallTransitable>();
                 gridPiece_WallTransitable.isWalkable = true;
                 gridPiece_WallTransitable.isEmpty = true;

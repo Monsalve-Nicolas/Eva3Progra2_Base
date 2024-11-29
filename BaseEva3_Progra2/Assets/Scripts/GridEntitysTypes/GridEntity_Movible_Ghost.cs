@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyP : MonoBehaviour
+public class GridEntity_Movible_Ghost : GridEntity_Movible
 {
-
     public GameObject fantasma;
     public Transform[] pos;
     public float velocidad = 1;
+    public Vector2Int starGhostPos;
 
     private void Start()
     {
+        SetGhostPos(starGhostPos);
         StartCoroutine(MovimientoP());
+
+    }
+    protected override void Awake2()
+    {
+        
+    }
+    protected override void Update2()
+    {
+       
+    }
+    public void SetGhostPos(Vector2Int pos)
+    {
+        gridPos = pos;
+        gridManager.GetGridPiece(pos).OnEntityEnter(this);
     }
     IEnumerator MovimientoP()
     {
@@ -32,5 +46,13 @@ public class EnemyP : MonoBehaviour
             yield return new WaitForSeconds(5);
 
         }
+    }
+    protected override void Die()
+    {
+        
+    }
+    public override void InteractWhitOtherEntity(GridEntity other)
+    {
+        
     }
 }
