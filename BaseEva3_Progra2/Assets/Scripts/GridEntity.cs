@@ -25,6 +25,7 @@ public abstract class GridEntity : MonoBehaviour
         if (life <= 0)
         {
             Die();
+            SceneManager.LoadScene(0);
         }
     }
 
